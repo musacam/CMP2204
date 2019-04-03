@@ -23,4 +23,4 @@ TODO's
 
 [ ] Add a *Graphical Interface*, either a **Program** or a **Website**
 
-[ ] Actually Read the PDF and learn what the -**Teacher**_ wants
+[ ] Actually Read the PDF and learn what the _**Teacher**_ wants
