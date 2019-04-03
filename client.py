@@ -8,7 +8,7 @@ IP = "127.0.0.1"
 PORT = 4269
 
 username = input("Please Enter a Username: ")
-uname = username
+uname = username.strip(" ").strip("\n")
 client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 try:
     client_socket.connect((IP, PORT))
@@ -34,9 +34,9 @@ while True:
             if not len(username_header):
                 print("Connection Terminated by the Server")
                 sys.exit()
-            username_length = int(username_header.decode("utf-8").strip())
-            username = client_socket.recv(username_length).decode("utf-8").strip()
-            print(f"\n{username}> {message}")
+            username_length = int(username_header.decode("utf-8").strip(" ").strip("\n"))
+            username = client_socket.recv(username_length).decode("utf-8").strip(" ").strip("\n")
+            print(f"{username}> {message}")
     except IOError as e:
         if e.errno != errno.EAGAIN and e.errno != errno.EWOULDBLOCK:
             print("Message Could not be Read", str(e))
