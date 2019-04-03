@@ -60,4 +60,4 @@ while True:
     for socket in exception_sockets:
         SOCKET_LIST.remove(socket)
         del CLIENT_DICT[socket]
-        
+
