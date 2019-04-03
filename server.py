@@ -18,7 +18,7 @@ server_socket.listen()
 print(f"Server Created on Port: {PORT}")
 
 SOCKET_LIST = list(server_socket)
-CLEINT_DICT = dict()
+CLIENT_DICT = dict()
 
 def receive(client_socket):
     try:
@@ -31,4 +31,36 @@ def receive(client_socket):
         return False
 
 while True:
-    pass
+    read_sockets, _, exception_sockets = select.select(SOCKET_LIST, [], SOCKET_LIST)
+    for socket in read_sockets:
+        if socket == server_socket:
+            client_socket, client_address = server_socket.accept()
+
+            user = receive(client_socket)
+            if not user:
+                continue
+            SOCKET_LIST.append(client_socket)
+            CLIENT_DICT[client_socket] = user
+            print(f"""{user["data"].decode()} Connected from {client_address[0]}:{client_address[1]}""")
+        else:
+            message = receive(socket)
+            if not message:
+                print(f"""Connection Closed From {CLIENT_DICT[socket]["data"].decode()}""")
+                SOCKET_LIST.remove(socket)
+                del CLIENT_DICT[socket]
+                continue
+            user = CLIENT_DICT[socket]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
