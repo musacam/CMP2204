@@ -18,7 +18,7 @@ except:
 server_socket.listen()
 print(f"Server Created on Port: {PORT}")
 
-SOCKET_LIST = list(server_socket)
+SOCKET_LIST = [server_socket]
 CLIENT_DICT = dict()
 
 def receive(client_socket):
@@ -26,7 +26,7 @@ def receive(client_socket):
         message_header = client_socket.recv(HEADER_LEN)
         if not len(message_header):
             return False
-        message_len = int(message_header.decode().strip())
+        message_len = int(message_header.decode("utf-8").strip())
         return {"header": message_header, "data": client_socket.recv(message_len)}
     except:
         return False
@@ -42,16 +42,16 @@ while True:
                 continue
             SOCKET_LIST.append(client_socket)
             CLIENT_DICT[client_socket] = user
-            print(f"""{user["data"].decode()} Connected from {client_address[0]}:{client_address[1]}""")
+            print(f"""{user["data"].decode("utf-8")} Connected from {client_address[0]}:{client_address[1]}""")
         else:
             message = receive(socket)
             if not message:
-                print(f"""Connection Closed From {CLIENT_DICT[socket]["data"].decode()}""")
+                print(f"""Connection Closed From {CLIENT_DICT[socket]["data"].decode("utf-8")}""")
                 SOCKET_LIST.remove(socket)
                 del CLIENT_DICT[socket]
                 continue
             user = CLIENT_DICT[socket]
-            print(f"""Received From {user["data"].decode()}> {message["data"].decode()} at {datetime.datetime.now()}""")
+            print(f"""Received From {user["data"].decode("utf-8")} ({message["data"].decode("utf-8")}), at {datetime.datetime.now()}""")
 
             for client_socket in CLIENT_DICT:
                 if client_socket != socket:

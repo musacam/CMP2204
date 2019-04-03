@@ -35,8 +35,8 @@ while True:
                 print("Connection Terminated by the Server")
                 sys.exit()
             username_length = int(username_header.decode("utf-8").strip())
-            username = client_socket.recv(username_length).decode("utf-8")
-            print(f"{username}> {message}")
+            username = client_socket.recv(username_length).decode("utf-8").strip()
+            print(f"\n{username}> {message}")
     except IOError as e:
         if e.errno != errno.EAGAIN and e.errno != errno.EWOULDBLOCK:
             print("Message Could not be Read", str(e))
@@ -45,4 +45,3 @@ while True:
     except Exception as e:
         print("Caught an Error!", str(e))
         sys.exit()
-
