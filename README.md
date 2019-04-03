@@ -9,7 +9,7 @@ ___
 `pip install -r requirements.txt` to install the modules used in this project
 ___
 
-#### A Networking Chat Application written in _*Python3*_
+#### A Networking Chat Application written in _*Python3*_ (Python3.6+ Needed for Formatted Strings to Work)
 1. Run the Server by executing `python server.py`
 2. Add One of More Clients by executing `python client.py`
 3. Add Usernames for those Clients
