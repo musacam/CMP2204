@@ -8,7 +8,7 @@ IP = "127.0.0.1"
 PORT = 4269
 
 username = input("Please Enter a Username: ")
-uname = username.strip(" ").strip("\n")
+uname = username
 client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 try:
     client_socket.connect((IP, PORT))
@@ -21,22 +21,20 @@ username_header = f"{len(username_encoded):<{HEADER_LEN}}".encode("utf-8")
 client_socket.send(username_header + username_encoded)
 
 while True:
-    username = uname
     message = input(f"{username}> ")
     if message:
         message = message.encode("utf-8")
         message_header = f"{len(message):<{HEADER_LEN}}".encode("utf-8")
         client_socket.send(message_header + message)
-
     try:
         while True:
-            username_header = client_socket.recv(HEADER_LEN)
-            if not len(username_header):
+            temp_header = client_socket.recv(HEADER_LEN)
+            if not len(temp_header):
                 print("Connection Terminated by the Server")
                 sys.exit()
-            username_length = int(username_header.decode("utf-8").strip(" ").strip("\n"))
-            username = client_socket.recv(username_length).decode("utf-8").strip(" ").strip("\n")
-            print(f"{username}> {message}")
+            temp_length = int(temp_header.decode("utf-8"))
+            temp = client_socket.recv(temp_length).decode("utf-8")
+            print(f"{temp}> {message}")
     except IOError as e:
         if e.errno != errno.EAGAIN and e.errno != errno.EWOULDBLOCK:
             print("Message Could not be Read", str(e))
