@@ -1,5 +1,6 @@
 import socket
 import select
+import datetime
 
 
 HEADER_LEN = 10
@@ -50,17 +51,13 @@ while True:
                 del CLIENT_DICT[socket]
                 continue
             user = CLIENT_DICT[socket]
+            print(f"""Received From {user["data"].decode()}> {message["data"].decode()} at {datetime.datetime.now()}""")
 
+            for client_socket in CLIENT_DICT:
+                if client_socket != socket:
+                    client_socket.send(user["header"] + user["data"] + message["header"] + message["data"])
 
-
-
-
-
-
-
-
-
-
-
-
-
+    for socket in exception_sockets:
+        SOCKET_LIST.remove(socket)
+        del CLIENT_DICT[socket]
+        
