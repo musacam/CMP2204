@@ -22,7 +22,7 @@ _CYAN = "\033[96m"
 
 
 
-HEADER_LEN = 10
+HEADER_LEN = 16
 IP = "127.0.0.1"
 PORT = 4269
 
