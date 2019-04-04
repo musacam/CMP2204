@@ -46,12 +46,13 @@ while True:
         else:
             message = receive(socket)
             if not message:
-                print(f"""Connection Closed From {CLIENT_DICT[socket]["data"].decode("utf-8")}""")
+                print(f'Connection Closed From {CLIENT_DICT[socket]["data"].decode("utf-8")}')
                 SOCKET_LIST.remove(socket)
                 del CLIENT_DICT[socket]
                 continue
             user = CLIENT_DICT[socket]
-            print(f'Received From {user["data"].decode("utf-8")} "{message["data"].decode("utf-8")}" at {datetime.datetime.now()}')
+            print(f'Received From {user["data"].decode("utf-8")}'
+                  f' "{message["data"].decode("utf-8")}" at {datetime.datetime.now()}')
 
             for client_socket in CLIENT_DICT:
                 if client_socket != socket:

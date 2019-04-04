@@ -17,11 +17,11 @@ except:
     client_socket.connect((IP, PORT))
 client_socket.setblocking(False)
 username_encoded = username.encode("utf-8")
-username_header = f"{len(username_encoded):<{HEADER_LEN}}".encode("utf-8")
+username_header = f"{len(username):<{HEADER_LEN}}".encode("utf-8")
 client_socket.send(username_header + username_encoded)
 
 while True:
-    message = input(f"{username}> ")
+    message = input(f"{username}> ").strip("\n")
     if message:
         message = message.encode("utf-8")
         message_header = f"{len(message):<{HEADER_LEN}}".encode("utf-8")
