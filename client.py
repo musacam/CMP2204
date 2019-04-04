@@ -3,6 +3,7 @@ import sys
 import errno
 
 
+"""----"""
 RED = "\033[1;31m"
 BLUE = "\033[1;34m"
 CYAN = "\033[1;36m"
@@ -19,7 +20,7 @@ _YELLOW = "\033[93m"
 _BLUE = "\033[94m"
 _PINK = "\033[95m"
 _CYAN = "\033[96m"
-
+"""----"""
 
 HEADER_LEN = 16
 IP = "127.0.0.1"
