@@ -1,6 +1,16 @@
 import socket
 import sys
 import errno
+from datetime import datetime
+
+
+def timestamp():
+    now = datetime.now()
+    hour = str(now.hour)
+    minute = str(now.minute)
+    second = str(now.second)
+    return f"[{hour:0>2}:{minute:0>2}:{second:0>2}] "
+
 
 
 """----"""
@@ -61,7 +71,7 @@ while True:
             message_length = int(message_header.decode().strip())
             message = client_socket.recv(message_length).decode()
 
-            print("\033[1;96m" + f"\n{username}> " + "\033[0;0m" + f"{message}\n")
+            print("\n" + timestamp() + "\033[1;96m" + f"{username}> " + "\033[0;0m" + f"{message}")
     except IOError as e:
         if e.errno != errno.EAGAIN and e.errno != errno.EWOULDBLOCK:
             print("Message Could not be Read", str(e))

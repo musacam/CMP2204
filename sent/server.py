@@ -1,6 +1,8 @@
 import socket
 import select
 from datetime import datetime
+import time
+from threading import Thread
 
 
 def timestamp():
@@ -60,6 +62,19 @@ def receive(client_socket):
     except:
         return False
 
+a = 1
+
+def online():
+    global a
+    while True:
+        if int(time.time()) % 3 == 0:
+            for socket in SOCKET_LIST:
+                if socket != server_socket:
+                    user = CLIENT_DICT[socket]
+                    print(f"{user['data'].decode()} is Online + {a}")
+                    a += 1
+                    break
+
 with open("message_log.txt", "a") as f:
     f.write(timestamp() + "Created Server\n")
     try:
@@ -68,6 +83,7 @@ with open("message_log.txt", "a") as f:
             for socket in read_sockets:
                 if socket == server_socket:
                     client_socket, client_address = server_socket.accept()
+                    client_socket.setblocking(False)
 
                     user = receive(client_socket)
                     if not user:
@@ -78,7 +94,7 @@ with open("message_log.txt", "a") as f:
                         f'{user["data"].decode()} Connected from ' + _PINK + f'{client_address[0]}:{client_address[1]}'
                         + RESET)
                     f.write(timestamp() +
-                        f"{user['data'].decode()} Connected From {client_address[0]}:{client_address[1]}\n")
+                            f"{user['data'].decode()} Connected From {client_address[0]}:{client_address[1]}\n")
                 else:
                     message = receive(socket)
                     if not message:
@@ -99,6 +115,11 @@ with open("message_log.txt", "a") as f:
             for socket in exception_sockets:
                 SOCKET_LIST.remove(socket)
                 del CLIENT_DICT[socket]
+
+            # t = Thread(online())
+            # t.start()
+
+
     finally:
         f.write(timestamp() + "Server Closed\n")
-        f.write("-" * 62 + '\n')
+        f.write("-" * 75 + ' \n')
